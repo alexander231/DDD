@@ -1,26 +1,26 @@
-package services
+package order
 
 import (
-	"github.com/alexander231/DDD/aggregate"
+	"github.com/alexander231/tavern/domain/product"
 	"testing"
 
 	"github.com/google/uuid"
 )
 
-func init_products(t *testing.T) []aggregate.Product {
-	beer, err := aggregate.NewProduct("Beer", "Healthy Beverage", 1.99)
+func init_products(t *testing.T) []product.Product {
+	beer, err := product.NewProduct("Beer", "Healthy Beverage", 1.99)
 	if err != nil {
 		t.Error(err)
 	}
-	peanuts, err := aggregate.NewProduct("Peanuts", "Healthy Snacks", 0.99)
+	peanuts, err := product.NewProduct("Peanuts", "Healthy Snacks", 0.99)
 	if err != nil {
 		t.Error(err)
 	}
-	wine, err := aggregate.NewProduct("Wine", "Healthy Snacks", 0.99)
+	wine, err := product.NewProduct("Wine", "Healthy Snacks", 0.99)
 	if err != nil {
 		t.Error(err)
 	}
-	products := []aggregate.Product{
+	products := []product.Product{
 		beer, peanuts, wine,
 	}
 	return products
@@ -38,13 +38,7 @@ func TestOrder_NewOrderService(t *testing.T) {
 		t.Error(err)
 	}
 
-	// Add Customer
-	cust, err := aggregate.NewCustomer("Percy")
-	if err != nil {
-		t.Error(err)
-	}
-
-	err = os.customers.Add(cust)
+	uid, err := os.AddCustomer("Percy")
 	if err != nil {
 		t.Error(err)
 	}
@@ -54,7 +48,7 @@ func TestOrder_NewOrderService(t *testing.T) {
 		products[0].GetID(),
 	}
 
-	_, err = os.CreateOrder(cust.GetID(), order)
+	_, err = os.CreateOrder(uid, order)
 
 	if err != nil {
 		t.Error(err)

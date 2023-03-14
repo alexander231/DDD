@@ -3,7 +3,6 @@ package customer
 
 import (
 	"errors"
-	"github.com/alexander231/DDD/aggregate"
 	"github.com/google/uuid"
 )
 
@@ -19,7 +18,7 @@ var (
 // Repository is a interface that defines the rules around what a customer repository
 // Has to be able to perform
 type Repository interface {
-	Get(uuid.UUID) (aggregate.Customer, error)
-	Add(aggregate.Customer) error
-	Update(aggregate.Customer) error
+	Get(uuid.UUID) (Customer, error)
+	Add(Customer) error
+	Update(Customer) error
 }
